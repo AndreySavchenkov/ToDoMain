@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {FilterValuesType} from './App';
 import {Input} from "./Input/Input";
 import {NewButton} from "./components/NewButton";
+import {Button} from "./Input/Button";
 
 
 type TaskType = {
@@ -28,27 +29,34 @@ export function Todolist(props: PropsType) {
     }
 
     const removeTaskHandler = (tId: string) => {
-            props.removeTask(tId)
+        props.removeTask(tId)
     }
+
+
 
 
     return <div>
         <h3>{props.title}</h3>
+
         <Input AddTask={props.AddTask} title={title} setTitle={setTitle}/>
+        <Button AddTask={props.AddTask} setTitle={setTitle} title={title}/>
+
         <ul>
-            {
-                props.tasks.map(t => <li key={t.id}>
-                    <input type="checkbox" checked={t.isDone}/>
-                    {/*<NewButton/>*/}
-                    <span>{t.title}</span>
-                    <NewButton callBack={()=>removeTaskHandler(t.id)} title={'x'} />
-                </li>)
+            {props.tasks.map((t) => {
+                return (
+                    <li key={t.id}>
+                        <input type="checkbox" checked={t.isDone}/>
+                        <span>{t.title}</span>
+                        <NewButton callBack={() => removeTaskHandler(t.id)} title={'x'}/>
+                    </li>
+                )
+            })
             }
         </ul>
         <div>
-            <NewButton callBack={() => setFileterHandler('all') } title={'all'}/>
-            <NewButton callBack={() => setFileterHandler('active') } title={'active'}/>
-            <NewButton callBack={() => setFileterHandler('completed') } title={'completed'}/>
+            <NewButton callBack={() => setFileterHandler('all')} title={'all'}/>
+            <NewButton callBack={() => setFileterHandler('active')} title={'active'}/>
+            <NewButton callBack={() => setFileterHandler('completed')} title={'completed'}/>
         </div>
     </div>
 }

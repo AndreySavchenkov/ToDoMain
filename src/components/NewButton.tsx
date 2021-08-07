@@ -1,9 +1,9 @@
 import React from "react";
-import {FilterValuesType} from "../App";
+
 
 type propsButton = {
     callBack: () => void
-    title?: string
+    title: string
 }
 
 export const NewButton = (props: propsButton) => {
