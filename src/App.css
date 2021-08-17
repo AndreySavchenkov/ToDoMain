@@ -6,3 +6,9 @@
 .App > div {
   margin-right: 50px;
 }
+.active-filter {
+  background-color: cadetblue;
+}
+.error {
+  border: 2px solid red;
+}
