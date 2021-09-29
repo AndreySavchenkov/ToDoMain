@@ -30,6 +30,19 @@ export type ChangeTitleTaskActionType = {
 
 }
 
+let initialState: TasksStateType = {
+    // 'todoListId1': [
+    //     {id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "React", isDone: false},
+    // ],
+    // 'todoListId2': [
+    //     {id: v1(), title: "Bear", isDone: true},
+    //     {id: v1(), title: "Fish", isDone: true},
+    //     {id: v1(), title: "Meat", isDone: false},
+    // ],
+};
+
 
 type ActionType = RemoveTaskActionType
     | AddTaskActionType
@@ -38,7 +51,7 @@ type ActionType = RemoveTaskActionType
     | AddTodolistAT
     | RemoveTodoListAT;
 
-export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
+export const tasksReducer = (state = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(task => task.id !== action.taskId)}
@@ -58,7 +71,13 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
                 })
             }
         case 'CHANGE-TITLE-TASK':
-            return {...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, title: action.title} : t)}
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {
+                    ...t,
+                    title: action.title
+                } : t)
+            }
         case 'ADD-TODOLIST':
             return {...state, [action.todolistId]: []}
         case 'REMOVE-TODOLIST':
@@ -67,7 +86,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             return copyState
 
         default:
-            throw new Error('I don\'t understand')
+            return state
     }
 }
 
