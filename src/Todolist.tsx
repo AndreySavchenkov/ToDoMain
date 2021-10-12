@@ -1,9 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
-import {CheckBox, Delete} from "@material-ui/icons";
+import {Delete} from "@material-ui/icons";
 
 type TodoListPropsType = {
     id: string
@@ -28,7 +28,7 @@ export type TaskType = {
 export const TodoList = React.memo((props: TodoListPropsType) => {
     console.log('TodoList');
 
-    const addTask = useCallback((title: string) => props.addTask(title, props.id),[props.addTask, props.id])
+    const addTask = (title: string) => props.addTask(title, props.id)
 
     const removeTodoList = () => props.removeTodoList(props.id)
 
@@ -71,15 +71,12 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
                     onClick={removeTask}>
                     <Delete/>
                 </IconButton>
-                {/*<button onClick={removeTask}>X</button>*/}
             </li>
         )
     }
-    const tasksJSXElements = props.tasks.map(getTaskJSXElement)
 
-    const allBtnClass = props.filter === "all" ? "active-filter" : ""
-    const activeBtnClass = props.filter === "active" ? "active-filter" : ""
-    const completedBtnClass = props.filter === "completed" ? "active-filter" : ""
+    const tasksJSXElements = tasksForTodoList.map(getTaskJSXElement)
+
 
     // JSX
     return (
