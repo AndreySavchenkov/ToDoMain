@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -25,7 +25,29 @@ export type TaskType = {
     isDone: boolean
 }
 
-function TodoList(props: TodoListPropsType) {
+export const TodoList = React.memo((props: TodoListPropsType) => {
+    console.log('TodoList');
+
+    const addTask = useCallback((title: string) => props.addTask(title, props.id),[props.addTask, props.id])
+
+    const removeTodoList = () => props.removeTodoList(props.id)
+
+    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.id, title)
+
+    let tasksForTodoList = props.tasks;
+
+    if (props.filter === "active") {
+        tasksForTodoList = props.tasks.filter(t => !t.isDone)
+    }
+    if (props.filter === "completed") {
+        tasksForTodoList = props.tasks.filter(t => t.isDone)
+    }
+
+    const setAllFilterValue = () => props.changeFilter("all", props.id)
+    const setActiveFilterValue = () => props.changeFilter("active", props.id)
+    const setCompletedFilterValue = () => props.changeFilter("completed", props.id)
+
+
 
 
     const getTaskJSXElement = (t: TaskType) => {
@@ -55,19 +77,9 @@ function TodoList(props: TodoListPropsType) {
     }
     const tasksJSXElements = props.tasks.map(getTaskJSXElement)
 
-
-
-    const setAllFilterValue = () => props.changeFilter("all", props.id)
-    const setActiveFilterValue = () => props.changeFilter("active", props.id)
-    const setCompletedFilterValue = () => props.changeFilter("completed", props.id)
-    const removeTodoList = () => props.removeTodoList(props.id)
-    const addTask = (title: string) => props.addTask(title, props.id)
-    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(props.id, title)
-
     const allBtnClass = props.filter === "all" ? "active-filter" : ""
     const activeBtnClass = props.filter === "active" ? "active-filter" : ""
     const completedBtnClass = props.filter === "completed" ? "active-filter" : ""
-
 
     // JSX
     return (
@@ -113,6 +125,6 @@ function TodoList(props: TodoListPropsType) {
             </div>
         </div>
     )
-};
+});
 
 export default TodoList;
