@@ -13,8 +13,9 @@ import Container from '@mui/material/Container';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Menu } from '@mui/icons-material';
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
-import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "../features/login/Login";
+
 
 type PropsType = {
     demo?: boolean
@@ -22,17 +23,6 @@ type PropsType = {
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-            rememberMe: false
-        },
-        onSubmit: values => {
-            alert(JSON.stringify(values));
-        },
-    })
 
 
     return (
