@@ -10,9 +10,22 @@ const instance = axios.create({
 
 // api
 export const authAPI = {
-    login(data : any){
-        return instance.post<LoginReponseType>('auth/login', data)
+    login(data : LoginRequestType){
+        return instance.post< LoginReponseType >('auth/login', data)
+    },
+    logout() {
+        return instance.delete('auth/login')
+    },
+    me() {
+        return instance.get< LoginReponseType >('auth/me')
     }
+}
+
+export type LoginRequestType = {
+    email: string,
+    password: string,
+    rememberMe?: boolean,
+    captcha?: boolean,
 }
 
 export type LoginReponseType = {

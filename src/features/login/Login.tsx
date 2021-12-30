@@ -10,7 +10,9 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 
 import {loginTC} from "./auth-reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../app/store";
+import {Navigate, useNavigate} from "react-router-dom";
 
 export const Login = () => {
 
@@ -38,15 +40,19 @@ export const Login = () => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(loginTC(values))
+            dispatch(loginTC(values));
+            formik.resetForm();
         },
     })
+
+    const isLoggedIn = useSelector((state: AppRootStateType)  => state.auth.isLoggedIn)
+    const navigate = useNavigate();
+    if(isLoggedIn) navigate('/')
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={(e)=> {
                 formik.handleSubmit(e);
-                formik.resetForm();
             }
             }>
                 <FormControl>
